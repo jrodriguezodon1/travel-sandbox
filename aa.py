@@ -172,6 +172,8 @@ with tab2:
             st.success("**Main Cabin is more cost-effective after considering miles earned and additional benefits.**")
 
 
+
+# Content for Tab 3
 with tab3:
     st.header("Road to Status")
 
@@ -198,7 +200,7 @@ with tab3:
 
     # Calculate points needed to reach target status
     points_needed = max(target_points - current_loyalty_points, 0)
-    st.write(f"**Loyalty Points needed to reach {target_status} status:** {points_needed}")
+    st.write(f"**Loyalty Points needed to reach {target_status} status:** {points_needed:,}")
 
     if points_needed > 0:
         st.write("Adjust the sliders below to see how different spending strategies can help you achieve your target status.")
@@ -207,19 +209,23 @@ with tab3:
         cc_spend = st.slider(
             "Total planned credit card spending ($):",
             min_value=0,
-            max_value=100000,
-            value=10000,
-            step=1000
+            max_value=50000,
+            value=5000,
+            step=250
         )
+        # Display the selected value with commas
+        st.write(f"Selected credit card spending: ${cc_spend:,}")
 
         # Slider for total flight spending
         flight_spend = st.slider(
             "Total planned spending on Main Cabin flights ($):",
             min_value=0,
-            max_value=100000,
+            max_value=30000,
             value=5000,
-            step=1000
+            step=250
         )
+        # Display the selected value with commas
+        st.write(f"Selected flight spending: ${flight_spend:,}")
 
         # Calculate Loyalty Points from each source
         cc_points = cc_spend * 1  # 1 LP per $1 spent
@@ -236,17 +242,17 @@ with tab3:
                 break
 
         # Display results
-        st.write(f"**Total Loyalty Points after planned spending:** {total_points}")
+        st.write(f"**Total Loyalty Points after planned spending:** {total_points:,}")
         if achieved_status:
-            st.write(f"**Congratulations! You've reached {achieved_status} status.**")
+            st.success(f"**Congratulations! You've reached {achieved_status} status.**")
         else:
-            st.write(f"**You have not reached a new status level.**")
+            st.info(f"**You have not reached a new status level.**")
 
         # Calculate and display adjusted monthly spend
         months_remaining = 12  # Assuming a 12-month qualification period
         adjusted_monthly_cc_spend = cc_spend / months_remaining
         adjusted_monthly_flight_spend = flight_spend / months_remaining
-        st.write(f"**Adjusted Monthly Credit Card Spend:** ${adjusted_monthly_cc_spend:.2f}")
-        st.write(f"**Adjusted Monthly Flight Spend:** ${adjusted_monthly_flight_spend:.2f}")
+        st.write(f"**Adjusted Monthly Credit Card Spend:** ${adjusted_monthly_cc_spend:,.2f}")
+        st.write(f"**Adjusted Monthly Flight Spend:** ${adjusted_monthly_flight_spend:,.2f}")
     else:
-        st.write(f"Congratulations! You've already achieved {target_status} status.")
+        st.success(f"Congratulations! You've already achieved {target_status} status.")
